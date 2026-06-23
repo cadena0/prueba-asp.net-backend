@@ -128,3 +128,4 @@
 /home/cohorte6/Desktop/EcosistemaRentasBackend/RentasApi/obj/Debug/net10.0/RentasApi.pdb
 /home/cohorte6/Desktop/EcosistemaRentasBackend/RentasApi/obj/Debug/net10.0/RentasApi.genruntimeconfig.cache
 /home/cohorte6/Desktop/EcosistemaRentasBackend/RentasApi/obj/Debug/net10.0/ref/RentasApi.dll
+/home/cohorte6/Desktop/EcosistemaRentasBackend/RentasApi/obj/Debug/net10.0/RentasApi.sourcelink.json

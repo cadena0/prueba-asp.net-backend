@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RentasApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f8af5b1340d6e36836e08b1ee036027c5b73db1d")]
 [assembly: System.Reflection.AssemblyProductAttribute("RentasApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RentasApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
