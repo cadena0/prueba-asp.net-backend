@@ -26,8 +26,16 @@ public class AuthService : IAuthService
         if (await _db.Users.AnyAsync(u => u.Email == request.Email))
             return new AuthResponse { Success = false, Message = "Email already registered." };
 
-        var role = (request.Role?.ToUpper() == "OWNER") ? "OWNER" : "GUEST";
+        // Determine role: only the configured InitialOwner email becomes OWNER
+        var ownerEmail = _config["InitialOwner:Email"];
+        var role = (ownerEmail != null && request.Email.Equals(ownerEmail, StringComparison.OrdinalIgnoreCase)) ? "OWNER" : "GUEST";
 
+        // Ensure there is at most one OWNER in the system
+        if (role == "OWNER")
+        {
+            if (await _db.Users.AnyAsync(u => u.Role == "OWNER"))
+                return new AuthResponse { Success = false, Message = "El propietario ya fue registrado." };
+        }
         var user = new User
         {
             FullName = request.FullName,

@@ -57,7 +57,43 @@ if (!string.IsNullOrEmpty(jwtKey))
 
 var app = builder.Build();
 
-// 3. Usar la política CORS antes de los controladores
+// 3. Seed inicial del propietario en la base de datos si no existe
+using (var scope = app.Services.CreateScope())
+{
+    var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var authService = scope.ServiceProvider.GetRequiredService<IAuthService>();
+
+    var ownerEmail = configuration["InitialOwner:Email"];
+    var ownerPassword = configuration["InitialOwner:Password"];
+    var ownerFullName = configuration["InitialOwner:FullName"] ?? "Propietario";
+
+    if (!string.IsNullOrEmpty(ownerEmail) && !string.IsNullOrEmpty(ownerPassword))
+    {
+        var existingOwner = await db.Users.FirstOrDefaultAsync(u => u.Role == "OWNER" || u.Email == ownerEmail);
+        if (existingOwner == null)
+        {
+            var request = new RentasApi.DTOs.RegisterRequest
+            {
+                FullName = ownerFullName,
+                Email = ownerEmail,
+                Password = ownerPassword
+            };
+
+            var result = await authService.RegisterAsync(request);
+            if (!result.Success)
+            {
+                Console.WriteLine($"Initial owner seed failed: {result.Message}");
+            }
+            else
+            {
+                Console.WriteLine($"Initial owner created: {ownerEmail}");
+            }
+        }
+    }
+}
+
+// 4. Usar la política CORS antes de los controladores
 app.UseCors("AllowFrontend");
 
 app.UseHttpsRedirection();
